@@ -2,20 +2,26 @@ package com.example.android.quakereport;
 
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class EarthquakeActivity extends AppCompatActivity implements LoaderCallbacks<List<Earthquake>> {
+
+    TextView mEmptyStateTextView;
 
     /**
      * Constant value for the earthquake loader ID. We can choose any integer.
@@ -24,13 +30,16 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
     private static final int EARTHQUAKE_LOADER_ID = 1;
 
 
-    /** URL for earthquake data from the USGS dataset */
+    /**
+     * URL for earthquake data from the USGS dataset
+     */
     private static final String USGS_REQUEST_URL =
             "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&orderby=time&minmag=6&limit=10";
 
-    /** Adapter for the list of earthquakes */
+    /**
+     * Adapter for the list of earthquakes
+     */
     private EarthquakeAdapter mAdapter;
-
 
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
@@ -43,6 +52,7 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
+
 //        // Create a fake list of earthquake locations.
 //        ArrayList<Earthquake> earthquakes = new ArrayList<>();
 //        earthquakes.add(new Earthquake("7.1","San Francisco","Feb 2, 2016"));
@@ -53,20 +63,20 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 //        earthquakes.add(new Earthquake("6.5","Mexico City","March 12, 2016"));
 
 
-
-
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
         // Create a new {@link ArrayAdapter} of earthquakes
-        mAdapter  = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
+        mAdapter = new EarthquakeAdapter(this, new ArrayList<Earthquake>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(mAdapter);
 
 
-
+        //setting the empty state textview on to the listview
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        earthquakeListView.setEmptyView(mEmptyStateTextView);
 
 
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -75,94 +85,96 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
                 if (position == 0) {
 
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
 
 
                 } else if (position == 1) {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
-                }else if (position == 2) {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                } else if (position == 2) {
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
-                }else if (position == 3) {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                } else if (position == 3) {
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
-                }else if (position == 4) {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                } else if (position == 4) {
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
-                }else if (position == 5) {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                } else if (position == 5) {
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
-                }else if (position == 6) {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                } else if (position == 6) {
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
-                }else if (position == 7) {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                } else if (position == 7) {
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
-                }else if (position == 8) {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                } else if (position == 8) {
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
-                }else if (position == 9) {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                } else if (position == 9) {
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
-                }else if (position == 10) {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                } else if (position == 10) {
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
                 } else {
-                    Earthquake earthquake =  mAdapter.getItem(position);
-                    String url =  earthquake.getURL();
+                    Earthquake earthquake = mAdapter.getItem(position);
+                    String url = earthquake.getURL();
 
                     Intent myIntent = new Intent(getApplicationContext(), webview.class);
-                    myIntent.putExtra("url",url);
+                    myIntent.putExtra("url", url);
                     startActivityForResult(myIntent, 0);
                 }
             }
         });
+
+
 
         // Get a reference to the LoaderManager, in order to interact with loaders.
         LoaderManager loaderManager = getLoaderManager();
@@ -184,6 +196,13 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
+        // Hide loading indicator because the data has been loaded
+        View loadingIndicator = findViewById(R.id.loading_spinner);
+        loadingIndicator.setVisibility(View.GONE);
+
+        // Set empty state text to display "No earthquakes found."
+        mEmptyStateTextView.setText(R.string.no_earthquakes);
+
         Log.i(LOG_TAG, "Test: Loader onLoad called");
         // Clear the adapter of previous earthquake data
         mAdapter.clear();
